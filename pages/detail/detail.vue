@@ -5,16 +5,19 @@
 		</view>
 		<ad :unit-id="ad.two" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white" v-if="ad.two"></ad>
 		<view class="func">
-			<button plain class="func-btn" open-type="share" v-if="coverDetail.inviteLockNum > 0">
+			<button plain class="func-btn" open-type="share" v-if="coverDetail.inviteLockNum > 0" :disabled="coverDetail.num == 0">
 				<image src="/static/share.png" mode="" class="func-btn-img"></image>
 				邀请好友领取（{{lockEdInfo.inviteLockNum}}/{{coverDetail.inviteLockNum}}）
 			</button>
-			<button plain class="func-btn" @click="lookAd" v-if="coverDetail.lookVideoLockNum > 0">
+			<button plain class="func-btn" @click="lookAd" v-if="coverDetail.lookVideoLockNum > 0" :disabled="coverDetail.num == 0">
 				<image src="/static/video.png" mode="" class="func-btn-img"></image>
 				观看视频领取（{{lockEdInfo.lookVideoLockNum}}/{{coverDetail.lookVideoLockNum}}）
 			</button>
-			<button plain class="func-btn success" @click="openModal" v-if="lockEdInfo.isLocked">
+			<button plain class="func-btn success" :disabled="coverDetail.num == 0" @click="openModal" v-if="lockEdInfo.isLocked">
 				领取封面
+			</button>
+			<button plain class="func-btn" disabled="true" v-if="coverDetail.num == 0">
+				已领完
 			</button>
 		</view>
 		<view class="recommand">更多封面👇👇👇</view>
@@ -26,7 +29,7 @@
 					<view class="modal-content-body-title">
 						领取方式(点击复制内容)
 					</view>
-					<text user-select decode class="modal-content-body-getdesc">{{coverDetail.getDesc}}</text>
+					<text user-select decode class="modal-content-body-getdesc">{{coverDetail.getDesc.split('|')[0]}}</text>
 					<button plain class="modal-content-body-question" open-type="contact">有疑问？</button>
 				</view>
 				<image src="/static/close.png" mode="" class="modal-content-cancel" @click.stop="closeModal"></image>
@@ -165,7 +168,7 @@ export default {
 			this.modalShow = false
     },
     handleCopy() {
-      let data = this.coverDetail.getDesc;
+      let data = this.coverDetail.getDesc.split('|')[0];
       wx.setClipboardData({
         data: data,
         success(res) {},

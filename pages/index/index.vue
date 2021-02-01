@@ -22,6 +22,8 @@
 		<view class="list">
 			<view class="list-item" v-for="(cover, i) in coverList" @click="goDetail(cover._id)" :key="i">
 				<image :src="cover.pic" mode="" class="list-item-img"></image>
+				<view v-if="cover.sendNum" class="list-num">{{ cover.sendNum }}人已领</view>
+				<view v-else class="list-num">点击查看</view>
 			</view>
 		</view>
 	</view>
@@ -156,6 +158,7 @@
 			flex-wrap: wrap;
 			padding: 25rpx 15rpx;
 			&-item{
+				position: relative;
 				width: 240rpx;
 				box-sizing: border-box;
 				box-shadow:0px 15px 10px -15px #000;
@@ -165,7 +168,17 @@
 					margin: auto;
 					width: 220rpx;
 					height: 360rpx;
-					border-radius: 8px 8px 0 0;
+					border-radius: 8px;
+				}
+				.list-num{
+					position: absolute;
+					bottom: 5rpx;
+					width: 100%;
+					height: 24rpx;
+					text-align: center;
+					font-size: 16rpx;
+					line-height: 24rpx;
+					color: #ffffff;
 				}
 			}
 		}
