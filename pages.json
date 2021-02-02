@@ -18,7 +18,7 @@
             "path" : "pages/detail/detail",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "封面详情",
+                "navigationBarTitleText": "封面丫",
                 "enablePullDownRefresh": false
             }
             
@@ -45,7 +45,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "封面攻略",
+		"navigationBarTitleText": "红包封面",
 		"navigationBarBackgroundColor": "#f45d4c",
 		"backgroundColor": "#FFFFFF",
 		"h5": {

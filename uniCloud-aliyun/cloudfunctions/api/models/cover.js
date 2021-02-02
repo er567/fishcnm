@@ -28,7 +28,18 @@ var cover = {
 			}).count()
 		let lookVideoLockNum = adLookVideo.total
 		let inviteLockNum = invite.total
-		if(detail.data[0].isFree || ((lookVideoLockNum > 0 && lookVideoLockNum >= detail.data[0].lookVideoLockNum) || (inviteLockNum > 0 && inviteLockNum >= detail.data[0].inviteLockNum))){
+		let taskDone = false
+		if (detail.data[0].isTaskTogether) {
+			if ((lookVideoLockNum > 0 && lookVideoLockNum >= detail.data[0].lookVideoLockNum) && (inviteLockNum > 0 && inviteLockNum >= detail.data[0].inviteLockNum)) {
+				taskDone = true
+			}
+
+		} else {
+			if ((lookVideoLockNum > 0 && lookVideoLockNum >= detail.data[0].lookVideoLockNum) || (inviteLockNum > 0 && inviteLockNum >= detail.data[0].inviteLockNum)) {
+				taskDone = true
+			}
+		}
+		if (detail.data[0].isFree || taskDone) {
 			var isLocked = true
 		}else{
 			var isLocked = false
@@ -39,6 +50,7 @@ var cover = {
 		}).get();
 		let ad = adConfig.data[0].value.detail
 		detail.data[0].getDesc += "\n" + req.openid
+		detail.data[0].getDesc += "\n" + detail.data[0]._id // 红包id
 		return {
 			coverDetail: detail.data[0],
 			lockEdInfo: {

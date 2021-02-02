@@ -5,7 +5,10 @@
 		</view>
 		<ad :unit-id="ad.two" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white" v-if="ad.two"></ad>
 		<view class="func">
-			<button plain class="func-btn" open-type="share" v-if="coverDetail.inviteLockNum > 0" :disabled="coverDetail.num == 0">
+			<text style="font-size: 22rpx; color: #DD524D;" v-if="coverDetail.isTaskTogether">
+				此封面剩余较少需要同时完成下面的两个任务
+			</text>
+			<button plain class="func-btn" style="margin-top: 0;" open-type="share" v-if="coverDetail.inviteLockNum > 0" :disabled="coverDetail.num == 0">
 				<image src="/static/share.png" mode="" class="func-btn-img"></image>
 				邀请好友领取（{{lockEdInfo.inviteLockNum}}/{{coverDetail.inviteLockNum}}）
 			</button>
@@ -17,19 +20,19 @@
 				领取封面
 			</button>
 			<button plain class="func-btn" disabled="true" v-if="coverDetail.num == 0">
-				已领完
+				今日已领完
 			</button>
 		</view>
-		<view class="recommand">更多封面👇👇👇</view>
+		<view class="recommand" v-if="ad.four">更多封面👇</view>
 		<ad-custom :unit-id="ad.three" v-if="ad.three"></ad-custom>
 		<ad :unit-id="ad.four" ad-type="video" ad-theme="white" v-if="ad.four"></ad>
 		<view class="modal" @touchmove.stop="handle" @click="closeModal" v-if="modalShow">
 			<view class="modal-content" @click.stop="openModal">
 				<view class="modal-content-body" @click="handleCopy">
 					<view class="modal-content-body-title">
-						领取方式(点击复制内容)
+						领取方式(点击复制内容发给客服核实后发放序列号)
 					</view>
-					<text user-select decode class="modal-content-body-getdesc">{{coverDetail.getDesc.split('|')[0]}}</text>
+					<text user-select decode class="modal-content-body-getdesc">{{coverDetail.getDesc}}</text>
 					<button plain class="modal-content-body-question" open-type="contact">有疑问？</button>
 				</view>
 				<image src="/static/close.png" mode="" class="modal-content-cancel" @click.stop="closeModal"></image>
@@ -53,6 +56,7 @@ export default {
 				inviteLockNum: 0,
 				lookVideoLockNum: 0,
 				getDesc: "",
+				isTaskTogether: false,
 			},
 			lockEdInfo: {
 				inviteLockNum: 0,
@@ -168,7 +172,7 @@ export default {
 			this.modalShow = false
     },
     handleCopy() {
-      let data = this.coverDetail.getDesc.split('|')[0];
+      let data = this.coverDetail.getDesc;
       wx.setClipboardData({
         data: data,
         success(res) {},
